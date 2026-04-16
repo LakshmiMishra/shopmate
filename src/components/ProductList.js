@@ -6,17 +6,22 @@ export const ProductList = () => {
     const [products,setProducts]=useState([]);  
     const [url,setUrl]=useState("http://localhost:8000/products/");   
        useEffect(()=>{
-          fetch(url)
-        .then(response => response.json())
-        .then(data => setProducts(data));
+         const fetchProducts=async()=>{
+            const response=await fetch(url);
+            const data=await  response.json();
+            setProducts(data);
+         }
+            fetchProducts();
        },[url]);
 
   return (
    <section>
     
-        <button onClick={()=>setUrl("http://localhost:8000/products/")}>All</button>
+       <div className='filter'>
+         <button onClick={()=>setUrl("http://localhost:8000/products/")}>All</button><span>                     </span>
         <button onClick={()=>setUrl("http://localhost:8000/products/?in_stock=true")}>In Stock</button>
     
+       </div>
     {
         products.map((product)=>(
             <div className="card" key={product.id}>
